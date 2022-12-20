@@ -29,4 +29,4 @@ def create_machine():
     show_conditions=True,
 )
 
-    return machine;
+    return machine

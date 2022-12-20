@@ -1,16 +1,14 @@
 import os
 
+from dotenv import load_dotenv
 from linebot import LineBotApi
 from linebot.models import TextSendMessage, ImageSendMessage, TemplateSendMessage, ImageCarouselColumn, ImageCarouselTemplate, ButtonsTemplate, MessageTemplateAction, URITemplateAction, ImageSendMessage, CarouselTemplate, CarouselColumn
 
-access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
-line_bot_api = LineBotApi(access_token)
-
+load_dotenv();
 channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
-
+line_bot_api = LineBotApi(channel_access_token)
 
 def send_text_message(reply_token, text):
-    line_bot_api = LineBotApi(channel_access_token)
     line_bot_api.reply_message(reply_token, TextSendMessage(text=text))
 
     return "OK"
