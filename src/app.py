@@ -3,13 +3,17 @@ import sys
 
 from flask import Flask, jsonify, request, abort, send_file
 from dotenv import load_dotenv
-from linebot import LineBotApi, WebhookParser
+from linebot import LineBotApi, WebhookParser, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
 
 from fsm import TocMachine
 from utils import send_text_message
 from machine import create_machine
+try:
+    import xml.etree.cElementTree as ET
+except ImportError:
+    import xml.etree.ElementTree as ET
 
 load_dotenv()
 
@@ -31,6 +35,7 @@ if channel_access_token is None:
 
 line_bot_api = LineBotApi(channel_access_token)
 parser = WebhookParser(channel_secret)
+handler = WebhookHandler(channel_secret)
 
 
 @app.route("/callback", methods=["POST"])

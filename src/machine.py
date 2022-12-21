@@ -2,7 +2,7 @@ from fsm import TocMachine
 
 def create_machine():
     machine = machine = TocMachine(
-    states=["user", "lobby", "state1", "state2"],
+    states=["user", "lobby", "show_current", "show_old"],
     transitions=[
         {
             "trigger": "advance",
@@ -13,16 +13,16 @@ def create_machine():
         {
             "trigger": "advance",
             "source": "lobby",
-            "dest": "state1",
-            "conditions": "is_going_to_state1",
+            "dest": "show_current",
+            "conditions": "is_going_to_show_current",
         },
         {
             "trigger": "advance",
             "source": "lobby",
-            "dest": "state2",
-            "conditions": "is_going_to_state2",
+            "dest": "show_old",
+            "conditions": "is_going_to_show_old",
         },
-        {"trigger": "go_back", "source": ["state1", "state2"], "dest": "lobby"},
+        {"trigger": "go_back", "source": ["show_current", "show_old"], "dest": "lobby"},
     ],
     initial="user",
     auto_transitions=False,
