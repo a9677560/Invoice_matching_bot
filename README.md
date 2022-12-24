@@ -3,6 +3,7 @@
 ## Outline
 
 - [構想](#構想)
+- [FSM圖](#FSM圖)
 - [安裝](#安裝)
 - [指令表](#指令表)
 - [詳細步驟](#詳細步驟)
@@ -11,6 +12,10 @@
 
 由於現在人的生活都太忙碌，所以都沒什麼時間去對發票，有些幸運兒
 甚至因此與千萬大獎失之交臂，令人惋惜。因此，便開發了這個對發票機器人。
+
+## FSM圖
+
+![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/fsm.png)
 
 ## 功能
 
@@ -45,4 +50,13 @@ P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章
 ## 詳細步驟
 ##### 當期和前期號碼：
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic1.jpg)
+##### 中特獎和五獎：
+![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic2.jpg)
+##### 未中獎
+![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic3.jpg)
+
+## 遇到的困難
+- reply_token只能使用一次，導致若想多次傳送訊息給用戶，lineAPI會出現錯誤
+使用的解法：將要傳送的訊息concat到一起，但治標不治本
+可嘗試的解法：透過push message的功能，將文字推送給特定的userid，但較麻煩
 
