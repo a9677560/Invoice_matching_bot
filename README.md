@@ -36,7 +36,7 @@ P.S.兌獎功能有加入人性化兌獎機制，只要輸入後三碼，就能�
 ```sh
 pip install -r requirements.txt
 ```
-P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章
+P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章<br>
 [點我](https://pygraphviz.github.io/documentation/stable/install.html)
 
 2.修改.env內的環境變數（`line_channel_secret` 和 `line_channel_access_token`）
