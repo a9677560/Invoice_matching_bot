@@ -1,5 +1,7 @@
 # TOC-Project-2022-master（發票兌獎機器人）
 
+![image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+
 ## Outline
 
 - [構想](#構想)
