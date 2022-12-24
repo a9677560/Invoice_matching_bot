@@ -56,7 +56,7 @@ P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic3.jpg)
 
 ## 遇到的困難
-- reply_token只能使用一次，導致若想多次傳送訊息給用戶，lineAPI會出現錯誤
-使用的解法：將要傳送的訊息concat到一起，但治標不治本
+- reply_token只能使用一次，導致若想多次傳送訊息給用戶，lineAPI會出現錯誤<br>
+使用的解法：將要傳送的訊息concat到一起，但治標不治本<br>
 可嘗試的解法：透過push message的功能，將文字推送給特定的userid，但較麻煩
 
