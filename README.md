@@ -52,11 +52,11 @@ P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章<br>
 - 使用說明
 
 ## 詳細步驟
-##### 當期和前期號碼：
+#### 當期和前期號碼：
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic1.jpg)
-##### 中特獎和五獎：
+#### 中特獎和五獎：
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic2.jpg)
-##### 未中獎
+#### 未中獎
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic3.jpg)
 
 ## 遇到的困難
