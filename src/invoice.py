@@ -10,13 +10,11 @@ import requests
 line_bot_api = getLineBotAPI()
 
 def sendUse():
-    text1 ='''
-歡迎使用發票對獎小幫手，請留意下列注意事項：
-1. 「對獎」功能會提示使用者輸入發票最後三碼，若最後三碼有中獎，就提示使用者輸入發票前五碼。
-2. 為方便使用者輸入，也可以直接輸入發票最後三碼直接對獎 (不需按「對獎」項目)。
-3. 「前期中獎號碼」功能會顯示前兩期發票中獎號碼。
-4. 「本期中獎號碼」功能會顯示最近一期發票中獎號碼。
-               '''
+    text1 ='''歡迎使用發票對獎小幫手，請留意下列注意事項：
+1. 「兌獎」功能會提示使用者輸入發票最後三碼，若最後三碼有中獎，就提示使用者輸入發票前五碼。
+2. 「前期號碼」功能會顯示前兩期發票中獎號碼。
+3. 「當期號碼」功能會顯示最近一期發票中獎號碼。
+4.  本機器人可能在部分特例情況會產生BUG，若發生以上情形，請通知管理者。'''
     return text1
 
 def showCurrent(event):
@@ -70,7 +68,7 @@ def show3digit(event, mtext):
             message = '恭喜！至少中六獎，請繼續輸入發票前五碼！'
             status = 2
         else:
-            message = '很可惜，未中獎。請輸入下一張發票最後三碼。'
+            message = '很可惜，未中獎。請輸入下一張發票最後三碼，或輸入「退出」來退出兌獎功能。'
             status = 3
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
     except:

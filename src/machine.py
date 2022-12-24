@@ -2,20 +2,20 @@ from fsm import TocMachine
 
 def create_machine():
     machine = machine = TocMachine(
-    states=["user", "lobby", "show_current", "show_old", "match", "match1", "match2", "match3", "match0", "second_match", "prize_match"],
+    states=["lobby", "show_use", "show_current", "show_old", "match", "match1", "match2", "match3", "match0", "end_match", "second_match", "prize_match"],
     transitions=[
-        {
-            "trigger": "advance",
-            "source": "user",
-            "dest": "lobby",
-            "conditions": "is_going_to_lobby",
-        },  
         {
             "trigger": "advance",
             "source": "lobby",
             "dest": "show_current",
             "conditions": "is_going_to_show_current",
         },
+        {
+            "trigger": "advance",
+            "source": "lobby",
+            "dest": "show_use",
+            "conditions": "is_going_to_show_use",
+        }, 
         {
             "trigger": "advance",
             "source": "lobby",
@@ -54,6 +54,12 @@ def create_machine():
         },
         {
             "trigger": "advance",
+            "source": "match",
+            "dest": "end_match",
+            "conditions": "is_going_to_end_match",
+        },
+        {
+            "trigger": "advance",
             "source": "second_match",
             "dest": "prize_match",
             "conditions": "is_going_to_prize_match",
@@ -70,11 +76,11 @@ def create_machine():
             "dest": "lobby",
             "conditions": "is_going_to_back_lobby",
         },                                                                              
-        {"trigger": "go_back", "source": ["show_current", "show_old", "match0"], "dest": "lobby"},
-        #{"trigger": "go_back_match", "source": ["match3"], "dest": "match"},
+        {"trigger": "go_back", "source": ["show_current", "show_old", "match0", "show_use", "second_match", "end_match"], "dest": "lobby"},
+        {"trigger": "go_back_match", "source": ["match3"], "dest": "match"},
         {"trigger": "go_second_match", "source": ["match1", "match2"], "dest": "second_match"},
     ],
-    initial="user",
+    initial="lobby",
     auto_transitions=False,
     show_conditions=True,
 )

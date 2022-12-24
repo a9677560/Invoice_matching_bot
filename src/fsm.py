@@ -13,15 +13,16 @@ class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
 
-    def is_going_to_lobby(self, event):
-        return True
-
     def is_going_to_back_lobby(self, event):
         return True
 
     def is_going_to_show_current(self, event):
         text = event.message.text
         return text == "當期號碼"
+
+    def is_going_to_show_use(self, event):
+        text = event.message.text
+        return text == "使用說明"
 
     def is_going_to_show_old(self, event):
         text = event.message.text
@@ -36,7 +37,8 @@ class TocMachine(GraphMachine):
         number = event.message.text
         mode = "special"
         digit3 = number
-        status = show3digit(event, number)
+        if(number.isdigit()):
+            status = show3digit(event, number)
         return status == 1
 
     def is_going_to_match2(self, event):
@@ -54,12 +56,20 @@ class TocMachine(GraphMachine):
         global status
         return status == -1   
 
-    def is_going_to_prize_match(self, event):
-        global mode, digit3
+    def is_going_to_end_match(self, event):
         text = event.message.text
-        if(text.isdigit()):
-            status = show5digit(event, text, mode, digit3)
-        return True
+        return text == "退出"
+
+    def is_going_to_prize_match(self, event):
+        try:
+            global mode, digit3
+            text = event.message.text
+            if(text.isdigit()):
+                status = show5digit(event, text, mode, digit3)
+            return True
+        except:
+            self.go_back(event)
+            return False
 
     def is_going_to_back_match(self, event):
         text = event.message.text
@@ -69,14 +79,15 @@ class TocMachine(GraphMachine):
         text = event.message.text
         return text == "否"
 
-    def on_enter_user(self, event):
-        print("I'm entering user")
+    def on_enter_lobby(self, event):
+        print("I'm entering lobby")
+
+    def on_enter_show_use(self, event):
+        print("I'm entering lobby")
 
         reply_token = event.reply_token
         send_text_message(reply_token, sendUse())
-
-    def on_enter_lobby(self, event):
-        print("I'm entering lobby")
+        self.go_back(event)
 
 
     def on_enter_show_current(self, event):
@@ -88,7 +99,7 @@ class TocMachine(GraphMachine):
     def on_enter_match(self, event):
         print("I'm entering match")
 
-        text = "請輸入發票後三碼數字："
+        text = "請輸入發票後三碼數字（或輸入「退出」來退出兌獎功能）："
         reply_token = event.reply_token
         send_text_message(reply_token, text)
 
@@ -102,9 +113,18 @@ class TocMachine(GraphMachine):
 
     def on_enter_match3(self, event):
         print("I'm entering match3")
+        self.go_back_match(event)
     
     def on_enter_match0(self, event):
         print("I'm entering match0")
+        self.go_back(event)
+
+    def on_enter_end_match(self, event):
+        print("I'm entering end match")
+
+        text = "已退出兌獎功能。"
+        reply_token = event.reply_token
+        send_text_message(reply_token, text)        
         self.go_back(event)
 
     def on_enter_second_match(self, event):
