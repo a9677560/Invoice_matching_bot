@@ -15,15 +15,16 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 load_dotenv()
-
-
+# This machine is only use for showing fsm
 machine = create_machine()
-
 app = Flask(__name__, static_url_path="")
 
 line_bot_api = getLineBotAPI()
-parser = getWebhookHandler()
+parser = getWebhookParser()
 handler = getWebhookHandler()
+
+# Unique FSM for each user
+machines = {}
 
 
 @app.route("/callback", methods=["POST"])
@@ -76,9 +77,15 @@ def webhook_handler():
             continue
         #print(f"\nFSM STATE: {machine.state}")
         #print(f"REQUEST BODY: \n{body}")
-        response = machine.advance(event)
+
+        # Create a machine for new user
+        if event.source.user_id not in machines:
+            machines[event.source.user_id] = create_machine()
+
+        # Advance the FSM for each MessageEvent
+        response = machines[event.source.user_id].advance(event)
         if response == False:
-            send_text_message(event.reply_token, "未觸發任何事件")
+            send_text_message(event.reply_token, "錯誤的指令，請重新再試")
 
     return "OK"
 
