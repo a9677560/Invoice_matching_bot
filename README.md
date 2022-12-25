@@ -1,4 +1,4 @@
-# TOC-Project-2022-master（發票兌獎機器人）
+# TOC-Project-2022-master（發票兌獎機器人 Invoice match bot）
 
 ![image](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
 ![image](https://img.shields.io/badge/Line-00C300?style=for-the-badge&logo=line&logoColor=white)
@@ -7,9 +7,14 @@
 
 - [構想](#構想)
 - [FSM圖](#FSM圖)
+- [功能](#功能)
 - [安裝](#安裝)
 - [指令表](#指令表)
 - [詳細步驟](#詳細步驟)
+    - [當期和前期號碼](#當期和前期號碼)
+    - [中特獎和五獎](#中特獎和五獎)
+    - [未中獎](#未中獎)
+- [遇到的困難](#遇到的困難)
 
 ## 構想
 
@@ -36,7 +41,7 @@ P.S.兌獎功能有加入人性化兌獎機制，只要輸入後三碼，就能�
 ```sh
 pip install -r requirements.txt
 ```
-P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章
+P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章<br>
 [點我](https://pygraphviz.github.io/documentation/stable/install.html)
 
 2.修改.env內的環境變數（`line_channel_secret` 和 `line_channel_access_token`）
@@ -52,11 +57,11 @@ P.S.安裝pygraphviz時可能會遇到問題,詳情請參考此文章
 - 使用說明
 
 ## 詳細步驟
-##### 當期和前期號碼：
+#### 當期和前期號碼：
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic1.jpg)
-##### 中特獎和五獎：
+#### 中特獎和五獎：
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic2.jpg)
-##### 未中獎
+#### 未中獎
 ![image](https://github.com/a9677560/TOC-Project-2022-master/blob/main/img/pic3.jpg)
 
 ## 遇到的困難
