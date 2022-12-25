@@ -8,6 +8,7 @@ from invoice import sendUse, showCurrent, showOld, show3digit, show5digit
 mode = ""
 digit3 = ""
 status = 0
+is_enter_match = 0
 
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
@@ -62,10 +63,13 @@ class TocMachine(GraphMachine):
 
     def is_going_to_prize_match(self, event):
         try:
-            global mode, digit3
+            global mode, digit3, status
             text = event.message.text
             if(text.isdigit()):
-                status = show5digit(event, text, mode, digit3)
+                show5digit(event, text, mode, digit3)
+            mode = ""
+            digit3 = ""
+            status = 0
             return True
         except:
             self.go_back(event)
@@ -97,11 +101,15 @@ class TocMachine(GraphMachine):
         self.go_back(event)
     
     def on_enter_match(self, event):
+        global is_enter_match
         print("I'm entering match")
 
-        text = "請輸入發票後三碼數字（或輸入「退出」來退出兌獎功能）："
-        reply_token = event.reply_token
-        send_text_message(reply_token, text)
+        #防止因match3導致reply_token重複使用而產生的BUG
+        if(is_enter_match == 0):
+            is_enter_match = 1
+            text = "請輸入發票後三碼數字（或輸入「退出」來退出兌獎功能）："
+            reply_token = event.reply_token
+            send_text_message(reply_token, text)
 
     def on_enter_match1(self, event):
         print("I'm entering match1")
@@ -112,7 +120,10 @@ class TocMachine(GraphMachine):
         self.go_second_match(event)
 
     def on_enter_match3(self, event):
+        global status
+        
         print("I'm entering match3")
+        status = 0
         self.go_back_match(event)
     
     def on_enter_match0(self, event):
@@ -120,8 +131,10 @@ class TocMachine(GraphMachine):
         self.go_back(event)
 
     def on_enter_end_match(self, event):
+        global is_enter_match
         print("I'm entering end match")
 
+        is_enter_match = 0
         text = "已退出兌獎功能。"
         reply_token = event.reply_token
         send_text_message(reply_token, text)        
@@ -131,8 +144,10 @@ class TocMachine(GraphMachine):
         print("I'm entering second match")
 
     def on_enter_prize_match(self, event):
+        global is_enter_match
+        
         print("I'm entering prize match")
-
+        is_enter_match = 0
 
 
 

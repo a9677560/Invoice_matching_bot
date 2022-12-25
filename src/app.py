@@ -3,11 +3,10 @@ import sys
 
 from flask import Flask, jsonify, request, abort, send_file
 from dotenv import load_dotenv
-from linebot import LineBotApi, WebhookParser, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
+from lineapi import getLineBotAPI, getWebhookHandler, getWebhookParser
 
-from fsm import TocMachine
 from utils import send_text_message
 from machine import create_machine
 try:
@@ -22,20 +21,9 @@ machine = create_machine()
 
 app = Flask(__name__, static_url_path="")
 
-
-# get channel_secret and channel_access_token from your environment variable
-channel_secret = os.getenv("LINE_CHANNEL_SECRET", None)
-channel_access_token = os.getenv("LINE_CHANNEL_ACCESS_TOKEN", None)
-if channel_secret is None:
-    print("Specify LINE_CHANNEL_SECRET as environment variable.")
-    sys.exit(1)
-if channel_access_token is None:
-    print("Specify LINE_CHANNEL_ACCESS_TOKEN as environment variable.")
-    sys.exit(1)
-
-line_bot_api = LineBotApi(channel_access_token)
-parser = WebhookParser(channel_secret)
-handler = WebhookHandler(channel_secret)
+line_bot_api = getLineBotAPI()
+parser = getWebhookHandler()
+handler = getWebhookHandler()
 
 
 @app.route("/callback", methods=["POST"])
@@ -90,7 +78,7 @@ def webhook_handler():
         #print(f"REQUEST BODY: \n{body}")
         response = machine.advance(event)
         if response == False:
-            send_text_message(event.reply_token, "Not Entering any State")
+            send_text_message(event.reply_token, "未觸發任何事件")
 
     return "OK"
 
