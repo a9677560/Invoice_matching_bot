@@ -50,7 +50,7 @@ def send_button_message(id, img, title, uptext, labels, texts):
 
 def send_button_carousel(id):
     message = TemplateSendMessage(
-        alt_text='Carousel template',
+        alt_text='功能列表',
         template=CarouselTemplate(
             columns=[
                 CarouselColumn(
