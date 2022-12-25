@@ -1,18 +1,20 @@
-import time
 from transitions.extensions import GraphMachine
 
-from utils import send_text_message
+from utils import send_text_message, send_button_carousel, push_message, send_button_message
 from invoice import sendUse, showCurrent, showOld, show3digit, show5digit
 
 
 mode = ""
 digit3 = ""
 status = 0
-is_enter_match = 0
+
 
 class TocMachine(GraphMachine):
     def __init__(self, **machine_configs):
         self.machine = GraphMachine(model=self, **machine_configs)
+
+    def is_going_to_lobby(self, event):
+        return True
 
     def is_going_to_back_lobby(self, event):
         return True
@@ -86,8 +88,11 @@ class TocMachine(GraphMachine):
     def on_enter_lobby(self, event):
         print("I'm entering lobby")
 
+        userid = event.source.user_id
+        send_button_carousel(userid)
+
     def on_enter_show_use(self, event):
-        print("I'm entering lobby")
+        print("I'm entering show use")
 
         reply_token = event.reply_token
         send_text_message(reply_token, sendUse())
@@ -101,15 +106,13 @@ class TocMachine(GraphMachine):
         self.go_back(event)
     
     def on_enter_match(self, event):
-        global is_enter_match
         print("I'm entering match")
 
-        #防止因match3導致reply_token重複使用而產生的BUG
-        if(is_enter_match == 0):
-            is_enter_match = 1
-            text = "請輸入發票後三碼數字（或輸入「退出」來退出兌獎功能）："
-            reply_token = event.reply_token
-            send_text_message(reply_token, text)
+        userid = event.source.user_id
+        labels = ["退出"]
+        texts = ["退出"]
+        msg = "請輸入發票後三碼數字："
+        send_button_message(userid, msg, labels, texts)
 
     def on_enter_match1(self, event):
         print("I'm entering match1")
@@ -131,10 +134,8 @@ class TocMachine(GraphMachine):
         self.go_back(event)
 
     def on_enter_end_match(self, event):
-        global is_enter_match
         print("I'm entering end match")
 
-        is_enter_match = 0
         text = "已退出兌獎功能。"
         reply_token = event.reply_token
         send_text_message(reply_token, text)        
@@ -144,10 +145,15 @@ class TocMachine(GraphMachine):
         print("I'm entering second match")
 
     def on_enter_prize_match(self, event):
-        global is_enter_match
-        
         print("I'm entering prize match")
-        is_enter_match = 0
+
+        userid = event.source.user_id
+        msg = "請問是否要繼續兌獎？"
+        labels = ['是', '否']
+        texts = ['是', '否']
+        send_button_message(userid, msg, labels, texts)
+
+
 
 
 

@@ -68,7 +68,7 @@ def show3digit(event, mtext):
             message = '恭喜！至少中六獎，請繼續輸入發票前五碼！'
             status = 2
         else:
-            message = '很可惜，未中獎。請輸入下一張發票最後三碼，或輸入「退出」來退出兌獎功能。'
+            message = '很可惜，未中獎。'
             status = 3
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
     except:
@@ -114,8 +114,7 @@ def show5digit(event, mtext, mode, digit3):
             elif mtext[4] == pnumber[4]:
                 message = '恭喜！此張發票中了五獎！'
             else:
-                message = '恭喜！此張發票中了六獎！'
-        message = message + '\n請問是否要繼續兌獎？（輸入是或否）'            
+                message = '恭喜！此張發票中了六獎！'           
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text=message))
     except:
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='讀取發票號碼發生錯誤！'))
